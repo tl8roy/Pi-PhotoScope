@@ -1,0 +1,100 @@
+{% extends "pi_photoscope/base.html" %}
+
+{% block title %}Take Photos{% endblock %}
+{% block title_page %}Take Photos{% endblock %}
+
+{% block content %}
+
+<div class="pure-g">
+	<form class="pure-form pure-form-aligned">
+			<fieldset>
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="name">Set Name</label>
+								<input id="name" type="text" name="name" placeholder="Set Name" />
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+						<img style="width:50em;max-height:50em;position:absolute;" src="preview.jpg" />
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="resolution">Resolution</label>
+								<select name="resolution" id="resolution" />
+								</select>
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="iso">ISO</label>
+								<select name="iso" id="iso" />
+								</select>
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="ss_long">Shutter Speed (Long)</label>
+								<input id="ss_long" name="ss_long" type="number" min="1" max="10" step="0.2" />s
+								<input name="ss" value="long" type="radio" />
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="ss_short">Shutter Speed (Short)</label>
+								1/<input id="ss_short" name="ss_short" type="number" min="1" max="2000" step="1" />
+								<input name="ss" value="short" type="radio" />
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="time_between">Time between Shots</label>
+								<input id="time_between" name="time_between" type="number" min="0" step="0.1" />
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-control-group">
+								<label for="num_to_take">Number to Take</label>
+								<input id="num_to_take" name="num_to_take" type="number" min="1" step="1" />
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+					<div class="pure-u-1-3">
+						<div class="pure-controls">
+								<button type="submit" class="pure-button pure-button-primary" name="go" >Go</button>
+								<button type="submit" class="pure-button pure-button-primary" name="preview" >Preview</button>
+						</div>
+					</div>
+					
+					<div class="pure-u-2-3">
+					</div>
+					
+			</fieldset>
+	</form>
+</div>
+
+{% endblock %}

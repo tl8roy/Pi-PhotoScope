@@ -1,0 +1,32 @@
+body {
+	background-color: darkred;
+}
+
+nav {
+	background-color: DarkSlateGray;
+	padding-left:5em;
+	color:lightgrey;
+}
+
+header h1 {
+	padding-top:1em;
+	text-align:center;
+	
+}
+
+.download_zip{
+	background-color:darkblue;
+	color:white;
+}
+
+.delete {
+	background-color:darkgreen;
+	color:white;
+}
+
+#content {
+		margin:2.5em;
+		width:70%;
+		left:15%;
+		position:relative;
+}

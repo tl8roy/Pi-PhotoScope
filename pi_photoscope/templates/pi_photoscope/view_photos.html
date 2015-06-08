@@ -1,0 +1,29 @@
+{% extends "pi_photoscope/base.html" %}
+
+{% block title %}View Photos{% endblock %}
+{% block title_page %}View Photos{% endblock %}
+
+{% block content %}
+
+<div class="pure-g">
+
+	<div class="pure-u-1-6">Name</div>
+	<div class="pure-u-1-6">Date</div>
+	<div class="pure-u-1-6">Num Photos</div>
+	<div class="pure-u-1-6">Download Zip</div>
+	<div class="pure-u-1-6"></div>
+	<div class="pure-u-1-6">Delete</div>
+	
+	{% for photo in photos %}
+		<div class="pure-u-1-6">{{photo.name}}</div>
+		<div class="pure-u-1-6">{{photo.date}}</div>
+		<div class="pure-u-1-6">{{photo.num_photos}}</div>
+		<div class="pure-u-1-6"><a class="pure-button download_zip" href="{% url 'download' photo.id %}">Download Zip</a></div>
+		<div class="pure-u-1-6"></div>
+		<div class="pure-u-1-6"><a class="pure-button delete" href="{% url 'delete' photo.id %}">Delete</a></div>
+	
+	{% endfor %}
+
+</div>
+
+{% endblock %}
