@@ -1,17 +1,30 @@
 body {
 	background-color: darkred;
+	color: Silver;
 }
 
 nav {
 	background-color: DarkSlateGray;
 	padding-left:5em;
-	color:lightgrey;
 }
 
 header h1 {
 	padding-top:1em;
 	text-align:center;
 	
+}
+
+.pure-menu-link {
+	color: lightgray;
+}
+
+.pure-menu-link:hover {
+	background-color:grey;
+}
+
+.pure-button-primary {
+	background-color: DarkSlateBlue;
+	color: lightgray;
 }
 
 .download_zip{
@@ -22,6 +35,11 @@ header h1 {
 .delete {
 	background-color:darkgreen;
 	color:white;
+}
+
+.pure-form input, .pure-form select {
+	background-color:lightgray;
+	color: black;
 }
 
 #content {
