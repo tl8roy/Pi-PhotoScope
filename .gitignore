@@ -1,2 +1,6 @@
 /.idea
 /pi_photoscope/__pycache__
+.idea/workspace.xml
+pi_photoscope/__pycache__/settings.cpython-34.pyc
+pi_photoscope/pi_photoscope/__pycache__/views.cpython-34.pyc
+*.pyc

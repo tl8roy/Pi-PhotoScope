@@ -15,15 +15,33 @@
 	<div class="pure-u-1-6">Delete</div>
 	
 	{% for photo in photos %}
-		<div class="pure-u-1-6">{{photo.name}}</div>
+		<div class="search" data-search="{{photo.date}}">
 		<div class="pure-u-1-6">{{photo.date}}</div>
 		<div class="pure-u-1-6">{{photo.num_photos}}</div>
 		<div class="pure-u-1-6"><a class="pure-button download_zip" href="{% url 'download' photo.id %}">Download Zip</a></div>
 		<div class="pure-u-1-6"></div>
 		<div class="pure-u-1-6"><a class="pure-button delete" href="{% url 'delete' photo.id %}">Delete</a></div>
+		</div>
 	
 	{% endfor %}
 
 </div>
+<script>
+	$('#search').on('keyup',function(){
+		var term = $('#search').val();
+		if(term.length > 0){
+			$('.search').each(function(idx,value){
+				if($(value).data('search').indexOf(term) !== -1){
+					$(value).show();
+				} else {
+					$(value).hide();
+				}
+			});
+		} else {
+			$('.search').show();
+		}
+	});
+
+</script>
 
 {% endblock %}

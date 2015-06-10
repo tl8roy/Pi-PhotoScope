@@ -59,7 +59,23 @@
 								<input name="ss" value="short" type="radio" required {% if photo_parameters.shutter_speed < 1 %} checked {% endif %}/>
 						</div>
 					</div>
-					
+
+					<script>
+						$('[name="ss"]').on('change', function(){
+							if($('[name="ss"]:checked').val() == 'long') {
+								$('#ss_short').prop('required',false);
+								$('#ss_long').prop('required',true);
+							} else if ($('[name="ss"]:checked').val() == 'short') {
+								$('#ss_short').prop('required',true);
+								$('#ss_long').prop('required',false);
+							}
+						});
+						$(function(){
+							$('[name="ss"]').trigger('change');
+						});
+
+					</script>
+
 					<div class="pure-u-2-3">
 					</div>
 					
