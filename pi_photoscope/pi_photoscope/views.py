@@ -3,10 +3,11 @@ from django.core.servers.basehttp import FileWrapper
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.conf import settings
+from django.core.files.temp import NamedTemporaryFile
 
-from os import listdir,mkdir
-from os.path import isfile, isdir, join
-import tempfile, zipfile
+from os import listdir, mkdir
+from os.path import isfile, isdir, join, getsize
+from shutil import rmtree, make_archive
 
 import datetime
 from time import sleep
@@ -127,27 +128,66 @@ def take(request):
     }))
 
 def view(request):
-    return HttpResponse(render(request, 'pi_photoscope/view_photos.html'))
 
-def download(request,photo_id):
-    """
-    Create a ZIP file on disk and transmit it in chunks of 8KB,
-    without loading the whole file into memory. A similar approach can
-    be used for large dynamic PDF files.
-    """
-    temp = tempfile.TemporaryFile()
-    archive = zipfile.ZipFile(temp, 'w', zipfile.ZIP_DEFLATED)
-    for index in range(10):
-        filename = __file__ # Select your files here.
-        archive.write(filename, 'file%d.txt' % index)
-    archive.close()
-    wrapper = FileWrapper(temp, "rb")
+    photos = []
+
+    #Get all our astro folders
+    folders = [ f for f in listdir(settings.ASTRO_IMAGES) if isdir(join(settings.ASTRO_IMAGES,f)) ]
+
+    #Go through each folder to see if we have today's
+    for folder in folders:
+        folderID = folder.split('_')
+
+        #Get the number of sets in the folder
+        num_photo = 1
+        files = [ f for f in listdir(settings.ASTRO_IMAGES + '/' + folder) if isfile(join(settings.ASTRO_IMAGES + '/' + folder,f)) ]
+        for file in files:
+            fileID = file.split('_')
+            if num_photo < int(fileID[0].replace('.txt','')):
+                num_photo = int(fileID[0].replace('.txt',''))
+
+        photos.append({'date': folderID[1],'id': folderID[0],'num_photos': num_photo})
+
+    return HttpResponse(render(request, 'pi_photoscope/view_photos.html',{'photos': photos}))
+
+def download(request, photo_id):
+
+    #Get all our astro folders
+    folders = [ f for f in listdir(settings.ASTRO_IMAGES) if isdir(join(settings.ASTRO_IMAGES,f)) ]
+
+    targetFolder = ''
+    targetFolderName = ''
+
+    #Go through each folder
+    for folder in folders:
+        folderID = folder.split('_')
+        #if it has the correct ID, delete it
+        if photo_id == folderID[0]:
+            targetFolder = folder
+            targetFolderName = folderID[1]
+            break
+
+    newfile = NamedTemporaryFile(suffix='.zip')
+
+    make_archive(newfile.name.replace('.zip',''), 'zip', settings.ASTRO_IMAGES, targetFolder + '/')
+
+    wrapper = FileWrapper(newfile)
     response = HttpResponse(wrapper, content_type='application/zip')
-    response['Content-Disposition'] = 'attachment; filename=test.zip'
-    response['Content-Length'] = temp.tell()
-    temp.seek(0)
+    response['Content-Disposition'] = 'attachment; filename='+targetFolderName+'.zip'
+    response['Content-Length'] = getsize(newfile.name)
     return response
 
-def delete(request,photo_id):
+def delete(request, photo_id):
+    #Get all our astro folders
+    folders = [ f for f in listdir(settings.ASTRO_IMAGES) if isdir(join(settings.ASTRO_IMAGES,f)) ]
+
+    #Go through each folder
+    for folder in folders:
+        folderID = folder.split('_')
+        #if it has the correct ID, delete it
+        if photo_id == folderID[0]:
+            rmtree(settings.ASTRO_IMAGES + '/' + folder)
+            break
+
     return redirect('view')
 
